@@ -1,0 +1,9 @@
+@if (visible()) {
+  <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1100">
+    <div class="toast show text-bg-{{ type() }} border-0" role="alert">
+      <div class="d-flex">
+        <div class="toast-body">{{ message() }}</div>
+      </div>
+    </div>
+  </div>
+}

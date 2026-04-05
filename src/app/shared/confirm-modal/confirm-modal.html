@@ -1,0 +1,9 @@
+<div class="confirm-overlay" (click)="result.emit(false)">
+  <div class="confirm-box" (click)="$event.stopPropagation()">
+    <p class="confirm-message">{{ message() }}</p>
+    <div class="confirm-actions">
+      <button class="btn btn-outline-secondary btn-sm" (click)="result.emit(false)">Cancel</button>
+      <button class="btn btn-danger btn-sm" (click)="result.emit(true)">{{ confirmLabel() }}</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,138 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="field">
+    <label>Name*</label>
+    <input
+      class="form-control"
+      [class.is-invalid]="form.controls.name.touched && form.controls.name.invalid"
+      formControlName="name"
+      type="text"
+      placeholder="Item name"
+    />
+    <div class="invalid-feedback">Name is required.</div>
+  </div>
+
+  <div class="field">
+    <label>Price ($)*</label>
+    <input
+      class="form-control"
+      [class.is-invalid]="form.controls.price.touched && form.controls.price.invalid"
+      formControlName="price"
+      type="number"
+      placeholder="0.00"
+      min="0"
+    />
+    <div class="invalid-feedback">Please enter a valid price.</div>
+  </div>
+
+  <div class="field">
+    <label>Category*</label>
+    <select
+      class="form-select"
+      [class.is-invalid]="form.controls.categoryId.touched && form.controls.categoryId.invalid"
+      formControlName="categoryId"
+    >
+      <option value="">Select category</option>
+      @for (cat of categories(); track cat.id) {
+        <option [value]="cat.id">{{ cat.name }}</option>
+      }
+    </select>
+    <div class="invalid-feedback">Category is required.</div>
+  </div>
+
+  @if (isEditMode()) {
+    <div class="field">
+      <label>Status*</label>
+      <select class="form-select" formControlName="status">
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+        <option value="discontinued">Discontinued</option>
+      </select>
+    </div>
+  }
+
+  @if (showWarranty()) {
+    <div class="field">
+      <label>Warranty (months)*</label>
+      <input
+        class="form-control"
+        [class.is-invalid]="
+          form.controls.warrantyMonths.touched && form.controls.warrantyMonths.invalid
+        "
+        formControlName="warrantyMonths"
+        type="number"
+        placeholder="10"
+        min="1"
+      />
+      <div class="invalid-feedback">Warranty is required for electronics.</div>
+    </div>
+  }
+
+  @if (showFurniture()) {
+    <div class="field">
+      <label>Weight (kg)*</label>
+      <input
+        class="form-control"
+        [class.is-invalid]="form.controls.weight.touched && form.controls.weight.invalid"
+        formControlName="weight"
+        type="number"
+        placeholder=" 15.5"
+        min="0"
+      />
+      <div class="invalid-feedback">Weight is required for furniture.</div>
+    </div>
+
+    <div class="field">
+      <label>Dimensions (cm)*</label>
+      <div class="dimensions-inputs">
+        <input
+          class="form-control"
+          [class.is-invalid]="form.controls.width.touched && form.controls.width.invalid"
+          formControlName="width"
+          type="number"
+          placeholder="Width"
+          min="1"
+        />
+        <input
+          class="form-control"
+          [class.is-invalid]="form.controls.height.touched && form.controls.height.invalid"
+          formControlName="height"
+          type="number"
+          placeholder="Height"
+          min="1"
+        />
+        <input
+          class="form-control"
+          [class.is-invalid]="form.controls.depth.touched && form.controls.depth.invalid"
+          formControlName="depth"
+          type="number"
+          placeholder="Depth"
+          min="1"
+        />
+      </div>
+      @if (
+        (form.controls.width.touched && form.controls.width.invalid) ||
+        (form.controls.height.touched && form.controls.height.invalid) ||
+        (form.controls.depth.touched && form.controls.depth.invalid)
+      ) {
+        <div class="invalid-feedback d-block">All dimensions are required for furniture.</div>
+      }
+    </div>
+  }
+
+  @if (noChangesError()) {
+    <p class="form-error">No changes were made.</p>
+  }
+  <div class="form-actions">
+    <button
+      type="button"
+      class="btn btn-outline-secondary"
+      (click)="cancelled.emit()"
+      [disabled]="saving()"
+    >
+      Cancel
+    </button>
+    <button type="submit" class="btn btn-primary" [disabled]="saving()">
+      {{ saving() ? 'Saving...' : isEditMode() ? 'Save' : 'Create' }}
+    </button>
+  </div>
+</form>

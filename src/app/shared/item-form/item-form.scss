@@ -1,0 +1,35 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 16px;
+
+  label {
+    font-size: 0.85rem;
+    color: #666;
+    font-weight: 500;
+  }
+}
+
+.dimensions-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  input {
+    width: 160px;
+  }
+}
+
+.form-error {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin: 0 0 8px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}

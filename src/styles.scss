@@ -1,0 +1,8 @@
+// kako bi se primenilo pre bootstrapa
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+@import 'bootstrap/scss/bootstrap';

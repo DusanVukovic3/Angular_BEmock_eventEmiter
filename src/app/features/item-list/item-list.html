@@ -1,0 +1,90 @@
+<app-floating-notification
+  [message]="toastMessage()"
+  [type]="toastType()"
+  (dismissed)="toastMessage.set(null)"
+/>
+
+<div class="item-list-container">
+  <h2>Items</h2>
+
+  @if (loading()) {
+    <app-loading-spinner />
+  }
+
+  @if (error()) {
+    <app-error-message [message]="error()!" (retry)="loadItems()" />
+  }
+
+  @if (!loading() && !error()) {
+    <div class="list-header">
+      <div class="filters">
+        <div class="search-wrapper">
+          <input
+            class="form-control"
+            type="text"
+            placeholder="Search by name..."
+            [value]="nameFilter()"
+            (input)="nameFilter.set($any($event.target).value)"
+          />
+          <i class="bi bi-search search-icon"></i>
+        </div>
+        <select
+          class="form-select"
+          [value]="statusFilter()"
+          (change)="statusFilter.set($any($event.target).value)"
+        >
+          <option value="">All statuses</option>
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+          <option value="discontinued">Discontinued</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" (click)="showModal.set(true)">+ New Item</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th class="sortable" (click)="sort('name')">
+            Name
+            <span class="sort-icon">{{
+              sortColumn() === 'name' ? (sortDir() === 'asc' ? '↑' : '↓') : '↕'
+            }}</span>
+          </th>
+          <th>Category</th>
+          <th>Status</th>
+          <th class="sortable" (click)="sort('price')">
+            Price
+            <span class="sort-icon">{{
+              sortColumn() === 'price' ? (sortDir() === 'asc' ? '↑' : '↓') : '↕'
+            }}</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of filteredItems(); track item.id) {
+          <tr class="clickable-row" [routerLink]="['/items', item.id]">
+            <td>{{ item.name }}</td>
+            <td>{{ getCategoryName(item.categoryId) }}</td>
+            <td>
+              <app-status-badge [status]="item.status" />
+            </td>
+            <td>{{ item.price | currency }}</td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="4" class="state-message">No items match your filters.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+
+  @if (showModal()) {
+    <app-create-item
+      [categories]="categories()"
+      (saved)="onItemCreated($event)"
+      (closed)="showModal.set(false)"
+    />
+  }
+</div>

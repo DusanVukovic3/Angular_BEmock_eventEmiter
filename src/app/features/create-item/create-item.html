@@ -1,0 +1,19 @@
+<div class="modal-overlay" (click)="closed.emit()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>New Item</h3>
+      <button class="close-btn" (click)="closed.emit()">✕</button>
+    </div>
+
+    @if (saveError()) {
+      <p class="save-error">{{ saveError() }}</p>
+    }
+
+    <app-item-form
+      [categories]="categories()"
+      [saving]="saving()"
+      (submitted)="onSubmit($event)"
+      (cancelled)="closed.emit()"
+    />
+  </div>
+</div>

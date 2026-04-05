@@ -1,2 +1,28 @@
-*.agdai
-MAlonzo/**
+# Angular build output
+dist/
+tmp/
+out-tsc/
+
+# Angular cache
+.angular/
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Environment files (may contain secrets)
+src/environments/environment*.ts
+
+# IDE
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS
+.DS_Store
+Thumbs.db

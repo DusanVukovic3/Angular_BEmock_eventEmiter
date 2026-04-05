@@ -1,0 +1,5 @@
+<span class="badge text-capitalize" [ngClass]="{
+  'text-bg-success': status() === 'active',
+  'text-bg-secondary': status() === 'inactive',
+  'text-bg-danger': status() === 'discontinued'
+}">{{ status() }}</span>
